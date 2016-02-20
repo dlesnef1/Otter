@@ -1,4 +1,4 @@
-package com.otter;
+package com.otter.book;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -26,7 +26,7 @@ public class BookController {
     }
 
     @RequestMapping(method = RequestMethod.POST)
-    public void one(@RequestParam("isbn") Integer isbn, HttpServletResponse response) throws IOException {
+    public void one(@RequestParam("isbn") String isbn, HttpServletResponse response) throws IOException {
         bookService.addBook(isbn);
         response.sendRedirect("/book");
     }

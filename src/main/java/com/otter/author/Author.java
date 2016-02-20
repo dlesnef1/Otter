@@ -1,6 +1,7 @@
-package com.otter;
+package com.otter.author;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.otter.book.Book;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -36,10 +37,6 @@ public class Author {
         return id;
     }
 
-    public void setId(Long id) {
-        this.id = id;
-    }
-
     public String getName() {
         return name;
     }
@@ -54,5 +51,13 @@ public class Author {
 
     public void setBookList(List<Book> bookList) {
         this.bookList = bookList;
+    }
+
+    @Override
+    public String toString() {
+        return "Author{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                '}';
     }
 }

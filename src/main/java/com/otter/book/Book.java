@@ -1,4 +1,7 @@
-package com.otter;
+package com.otter.book;
+
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.otter.author.Author;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -41,10 +44,6 @@ public class Book {
         return id;
     }
 
-    public void setId(Long id) {
-        this.id = id;
-    }
-
     public Integer getIsbn() {
         return isbn;
     }
@@ -83,5 +82,17 @@ public class Book {
 
     public void setSummary(String summary) {
         this.summary = summary;
+    }
+
+    @Override
+    public String toString() {
+        return "Book{" +
+                "id=" + id +
+                ", isbn=" + isbn +
+                ", title='" + title + '\'' +
+                ", author=" + author +
+                ", publisher='" + publisher + '\'' +
+                ", summary='" + summary + '\'' +
+                '}';
     }
 }
