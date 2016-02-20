@@ -29,13 +29,16 @@ public class BookHelper {
 
 
     public Book retrieveBook(String isbn) {
+
+        // Check for book already in database, if so return the book
         Book book = bookRepository.findByIsbn(Integer.valueOf(isbn));
         if (book != null) {
             System.out.println("Book already found");
             return book;
         } else {
-            RestTemplate restTemplate = new RestTemplate();
 
+            // Try to find the book in the API
+            RestTemplate restTemplate = new RestTemplate();
             try {
                 String url = "http://isbndb.com/api/v2/json/290T9YDA/book/" + isbn;
 
@@ -48,6 +51,7 @@ public class BookHelper {
     }
 
     private Book saveJSON(String jsonString) throws IOException {
+        // If error occurs searching for the book (it doesn't exist) error is handled in try catch above
         ObjectMapper mapper = new ObjectMapper();
         JsonNode bookNode = mapper.readTree(jsonString).get("data").get(0);
 

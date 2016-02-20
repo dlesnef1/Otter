@@ -1,7 +1,5 @@
 package com.otter.book;
 
-import com.otter.author.Author;
-import com.otter.author.AuthorRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
