@@ -43,36 +43,52 @@ public class BookHelper {
                 String url = "http://isbndb.com/api/v2/json/290T9YDA/book/" + isbn;
 
                 String jsonString = restTemplate.getForObject(url, String.class);
-                return saveJSON(jsonString);
+                return saveBook(jsonString);
             } catch (Exception ex) {
                 return null;
             }
         }
     }
 
-    private Book saveJSON(String jsonString) throws IOException {
-        // If error occurs searching for the book (it doesn't exist) error is handled in try catch above
-        ObjectMapper mapper = new ObjectMapper();
-        JsonNode bookNode = mapper.readTree(jsonString).get("data").get(0);
-
+    private Book saveBook(String jsonString) throws IOException{
         Book book = new Book();
-        book.setIsbn(bookNode.get("isbn10").asInt());
-        book.setTitle(bookNode.get("title").toString());
-        book.setPublisher(bookNode.get("publisher_name").toString());
-        book.setSummary(bookNode.get("summary").toString());
+        book.setIsbn(Integer.valueOf(getStringFromJson(jsonString, "isbn10")));
 
-        JsonNode authorNode = bookNode.get("author_data").get(0);
-        Author author = authorRepository.findByName(authorNode.get("name").toString());
-        if (author == null) {
-            author = new Author(authorNode.get("name").toString());
-        }
+        book.setTitle(getStringFromJson(jsonString, "title"));
+        book.setPublisher(getStringFromJson(jsonString, "publisher_name"));
+        book.setSummary(getStringFromJson(jsonString, "summary"));
+
+        Author author = getAuthor(jsonString);
+
         author.getBookList().add(book);
         book.setAuthor(author);
 
         authorRepository.save(author);
         bookRepository.save(book);
 
-        // TODO fix god aweful string errors but else good shit
         return book;
+    }
+
+    // These two methods should be combined somehow. Since they're private I care slightly less though
+    private String getStringFromJson(String jsonString, String attribute) throws IOException {
+        ObjectMapper mapper = new ObjectMapper();
+        JsonNode bookNode = mapper.readTree(jsonString).get("data").get(0);
+
+        return bookNode.get(attribute).toString().replace("\"", "");
+    }
+
+    // The second method as mentioned above
+    private Author getAuthor(String jsonString) throws IOException{
+        ObjectMapper mapper = new ObjectMapper();
+        JsonNode bookNode = mapper.readTree(jsonString).get("data").get(0);
+        JsonNode authorNode = bookNode.get("author_data").get(0);
+
+        Author author = authorRepository.findByName(authorNode.get("name").toString().replace("\"", ""));
+        System.out.println("Author: " + author);
+        System.out.println("All authors: " + authorRepository.findAll());
+        if (author == null) {
+            author = new Author(authorNode.get("name").toString().replace("\"", ""));
+        }
+        return author;
     }
 }
