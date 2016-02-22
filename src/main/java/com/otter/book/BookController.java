@@ -1,10 +1,7 @@
 package com.otter.book;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
@@ -21,13 +18,36 @@ public class BookController {
     BookService bookService;
 
     @RequestMapping
-    public List<Book> all(){
+    public List<Book> all() {
         return bookService.findAll();
     }
 
     @RequestMapping(method = RequestMethod.POST)
-    public void one(@RequestParam("isbn") String isbn, HttpServletResponse response) throws IOException {
+    public void create(@RequestParam(value = "isbn", required = false) String isbn,
+                       @RequestParam(value = "title", required = false) String title,
+                       @RequestParam(value = "publisher", required = false) String publisher,
+                       @RequestParam(value = "summary", required = false) String summary,
+                       @RequestParam(value = "author", required = false) String author,
+                       HttpServletResponse response) throws IOException {
+
         bookService.addBook(isbn);
+
         response.sendRedirect("/book");
+    }
+
+    @RequestMapping("/{isbn}")
+    public Book find(@PathVariable String isbn) {
+        return bookService.findBook(isbn);
+    }
+
+    @RequestMapping(path = "/{isbn}", method = RequestMethod.PUT)
+    public Book put(@PathVariable String isbn,
+                    @RequestParam(value = "title", required = false) String title,
+                    @RequestParam(value = "publisher", required = false) String publisher,
+                    @RequestParam(value = "summary", required = false) String summary,
+                    @RequestParam(value = "author", required = false) String author,
+                    @RequestParam(value = "timesRead", required = false) Integer timesRead) {
+
+        return bookService.updateBook(isbn, title, publisher, summary, author, timesRead);
     }
 }

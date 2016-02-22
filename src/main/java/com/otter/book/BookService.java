@@ -21,4 +21,12 @@ public class BookService {
     public Book addBook(String isbn) {
         return bookHelper.retrieveBook(isbn);
     }
+
+    public Book updateBook(String isbn, String title, String publisher, String summary, String author, Integer timesRead) {
+        return bookHelper.updateBook(isbn, title, publisher, summary, author, timesRead);
+    }
+
+    public Book findBook(String isbn) {
+        return bookHelper.findBook(isbn);
+    }
 }

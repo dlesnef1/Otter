@@ -29,12 +29,15 @@ public class Book {
 
     private String summary;
 
+    private Integer timesRead;
+
     public Book(Integer isbn, String title, Author author, String publisher, String summary) {
         this.isbn = isbn;
         this.title = title;
         this.author = author;
         this.publisher = publisher;
         this.summary = summary;
+        timesRead = 0;
     }
 
     public Book() {
@@ -82,6 +85,14 @@ public class Book {
 
     public void setSummary(String summary) {
         this.summary = summary;
+    }
+
+    public Integer getTimesRead() {
+        return timesRead;
+    }
+
+    public void setTimesRead(Integer timesRead) {
+        this.timesRead = timesRead;
     }
 
     @Override

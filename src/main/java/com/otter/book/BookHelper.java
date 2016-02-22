@@ -50,7 +50,37 @@ public class BookHelper {
         }
     }
 
-    private Book saveBook(String jsonString) throws IOException{
+    public Book updateBook(String isbn, String title, String publisher, String summary, String authorName, Integer timesRead) {
+        Book book = bookRepository.findByIsbn(Integer.valueOf(isbn));
+        Author author = authorRepository.findByName(authorName);
+        if (author == null) {
+            author = new Author(authorName);
+        }
+
+        if (book == null) {
+            // We need to make a new book then
+            book = new Book(Integer.valueOf(isbn), title, author, publisher, summary);
+            book.setTimesRead(timesRead);
+            author.getBookList().add(book);
+        } else {
+            book.setIsbn(Integer.valueOf(isbn));
+            book.setTitle(title);
+            book.setPublisher(publisher);
+            book.setSummary(summary);
+            book.setAuthor(author);
+            book.setTimesRead(timesRead);
+        }
+
+        authorRepository.save(author);
+        bookRepository.save(book);
+        return book;
+    }
+
+    public Book findBook(String isbn) {
+        return bookRepository.findByIsbn(Integer.valueOf(isbn));
+    }
+
+    private Book saveBook(String jsonString) throws IOException {
         Book book = new Book();
         book.setIsbn(Integer.valueOf(getStringFromJson(jsonString, "isbn10")));
 
@@ -78,7 +108,7 @@ public class BookHelper {
     }
 
     // The second method as mentioned above
-    private Author getAuthor(String jsonString) throws IOException{
+    private Author getAuthor(String jsonString) throws IOException {
         ObjectMapper mapper = new ObjectMapper();
         JsonNode bookNode = mapper.readTree(jsonString).get("data").get(0);
         JsonNode authorNode = bookNode.get("author_data").get(0);
