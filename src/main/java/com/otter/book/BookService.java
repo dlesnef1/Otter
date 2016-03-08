@@ -12,21 +12,21 @@ import java.util.List;
 public class BookService {
 
     @Autowired
-    BookHelper bookHelper;
+    BookManager bookManager;
 
     public List<Book> findAll() {
-        return bookHelper.findAll();
+        return bookManager.findAll();
     }
 
     public Book addBook(String isbn) {
-        return bookHelper.retrieveBook(isbn);
+        return bookManager.retrieveBook(isbn);
     }
 
     public Book updateBook(String isbn, String title, String publisher, String summary, String author, Integer timesRead) {
-        return bookHelper.updateBook(isbn, title, publisher, summary, author, timesRead);
+        return bookManager.updateBook(isbn, title, publisher, summary, author, timesRead);
     }
 
     public Book findBook(String isbn) {
-        return bookHelper.findBook(isbn);
+        return bookManager.findBook(isbn);
     }
 }
