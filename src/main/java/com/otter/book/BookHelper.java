@@ -77,7 +77,11 @@ public class BookHelper {
     }
 
     public Book findBook(String isbn) {
-        return bookRepository.findByIsbn(Integer.valueOf(isbn));
+        Book book = bookRepository.findByIsbn(Integer.valueOf(isbn));
+        if (book == null) {
+            book = new Book();
+        }
+        return book;
     }
 
     private Book saveBook(String jsonString) throws IOException {
@@ -114,8 +118,7 @@ public class BookHelper {
         JsonNode authorNode = bookNode.get("author_data").get(0);
 
         Author author = authorRepository.findByName(authorNode.get("name").toString().replace("\"", ""));
-        System.out.println("Author: " + author);
-        System.out.println("All authors: " + authorRepository.findAll());
+
         if (author == null) {
             author = new Author(authorNode.get("name").toString().replace("\"", ""));
         }

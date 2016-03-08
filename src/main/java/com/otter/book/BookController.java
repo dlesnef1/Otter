@@ -24,15 +24,10 @@ public class BookController {
 
     @RequestMapping(method = RequestMethod.POST)
     public void create(@RequestParam(value = "isbn", required = false) String isbn,
-                       @RequestParam(value = "title", required = false) String title,
-                       @RequestParam(value = "publisher", required = false) String publisher,
-                       @RequestParam(value = "summary", required = false) String summary,
-                       @RequestParam(value = "author", required = false) String author,
                        HttpServletResponse response) throws IOException {
 
         bookService.addBook(isbn);
-
-        response.sendRedirect("/book");
+        response.sendRedirect("/book/"+isbn);
     }
 
     @RequestMapping("/{isbn}")
