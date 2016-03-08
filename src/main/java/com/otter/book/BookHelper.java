@@ -35,7 +35,6 @@ public class BookHelper {
             List<Map> isbns = (ArrayList) volumeInfo.getOrDefault("industryIdentifiers", new ArrayList<>());
             for (Map isbn : isbns) {
                 if (isbn.get("type").equals("ISBN_10")) {
-                    System.out.println(isbn);
                     book.setIsbn((String) isbn.get("identifier"));
                 }
             }

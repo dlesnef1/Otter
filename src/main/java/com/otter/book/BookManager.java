@@ -26,7 +26,6 @@ public class BookManager {
     @Autowired
     private BookHelper bookHelper;
 
-
     String API_KEY = "AIzaSyDMBHkUiVJm8LQBQx1x6z4LsjZqGXq4lLI";
 
     public List<Book> findAll() {
@@ -50,7 +49,7 @@ public class BookManager {
     }
 
     public Book updateBook(String isbn, String title, String publisher, String publishedDate, String summary, String authorName, Integer timesRead) {
-        Book book = bookRepository.findByIsbn(Integer.valueOf(isbn));
+        Book book = bookRepository.findByIsbn(isbn);
         Author author = authorRepository.findByName(authorName);
         if (author == null) {
             author = new Author(authorName);
@@ -76,7 +75,7 @@ public class BookManager {
     }
 
     public Book findBook(String isbn) {
-        Book book = bookRepository.findByIsbn(Integer.valueOf(isbn));
+        Book book = bookRepository.findByIsbn(isbn);
         if (book == null) {
             book = new Book();
         }

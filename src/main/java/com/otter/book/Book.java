@@ -29,6 +29,7 @@ public class Book {
 
     private String publishedDate;
 
+    @Column(columnDefinition = "TEXT")
     private String summary;
 
     private Integer timesRead;

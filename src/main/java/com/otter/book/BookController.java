@@ -3,7 +3,6 @@ package com.otter.book;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.List;
 
@@ -23,8 +22,7 @@ public class BookController {
     }
 
     @RequestMapping(method = RequestMethod.POST)
-    public List<Book> searchFor(@RequestParam(value = "title") String title,
-                                HttpServletResponse response) throws IOException {
+    public List<Book> searchFor(@RequestParam(value = "title") String title) throws IOException {
 
         return bookService.searchFor(title);
     }
