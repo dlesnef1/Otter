@@ -3,6 +3,7 @@ package com.otter.book;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.io.UnsupportedEncodingException;
 import java.util.List;
 
 /**
@@ -18,12 +19,12 @@ public class BookService {
         return bookManager.findAll();
     }
 
-    public Book addBook(String isbn) {
-        return bookManager.retrieveBook(isbn);
+    public List<Book> searchFor(String title) throws UnsupportedEncodingException {
+        return bookManager.retrieveBooks(title);
     }
 
-    public Book updateBook(String isbn, String title, String publisher, String summary, String author, Integer timesRead) {
-        return bookManager.updateBook(isbn, title, publisher, summary, author, timesRead);
+    public Book updateBook(String isbn, String title, String publisher, String publishedDate, String summary, String author, Integer timesRead) {
+        return bookManager.updateBook(isbn, title, publisher, publishedDate, summary, author, timesRead);
     }
 
     public Book findBook(String isbn) {

@@ -1,6 +1,5 @@
 package com.otter.book;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
 import com.otter.author.Author;
 
 import javax.persistence.*;
@@ -17,7 +16,8 @@ public class Book {
     private Long id;
 
     @NotNull
-    private Integer isbn;
+    @Column(unique = true)
+    private String isbn;
 
     @NotNull
     private String title;
@@ -27,15 +27,18 @@ public class Book {
 
     private String publisher;
 
+    private String publishedDate;
+
     private String summary;
 
     private Integer timesRead;
 
-    public Book(Integer isbn, String title, Author author, String publisher, String summary) {
+    public Book(String isbn, String title, Author author, String publisher, String publishedDate, String summary) {
         this.isbn = isbn;
         this.title = title;
         this.author = author;
         this.publisher = publisher;
+        this.publishedDate = publishedDate;
         this.summary = summary;
         timesRead = 0;
     }
@@ -47,11 +50,11 @@ public class Book {
         return id;
     }
 
-    public Integer getIsbn() {
+    public String getIsbn() {
         return isbn;
     }
 
-    public void setIsbn(Integer isbn) {
+    public void setIsbn(String isbn) {
         this.isbn = isbn;
     }
 
@@ -77,6 +80,14 @@ public class Book {
 
     public void setPublisher(String publisher) {
         this.publisher = publisher;
+    }
+
+    public String getPublishedDate() {
+        return publishedDate;
+    }
+
+    public void setPublishedDate(String publishedDate) {
+        this.publishedDate = publishedDate;
     }
 
     public String getSummary() {

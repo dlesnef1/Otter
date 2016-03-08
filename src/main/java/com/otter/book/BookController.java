@@ -23,11 +23,10 @@ public class BookController {
     }
 
     @RequestMapping(method = RequestMethod.POST)
-    public void create(@RequestParam(value = "isbn", required = false) String isbn,
-                       HttpServletResponse response) throws IOException {
+    public List<Book> searchFor(@RequestParam(value = "title") String title,
+                                HttpServletResponse response) throws IOException {
 
-        bookService.addBook(isbn);
-        response.sendRedirect("/book/"+isbn);
+        return bookService.searchFor(title);
     }
 
     @RequestMapping("/{isbn}")
@@ -39,10 +38,11 @@ public class BookController {
     public Book put(@PathVariable String isbn,
                     @RequestParam(value = "title", required = false) String title,
                     @RequestParam(value = "publisher", required = false) String publisher,
+                    @RequestParam(value = "publishedDate", required = false) String publishedDate,
                     @RequestParam(value = "summary", required = false) String summary,
                     @RequestParam(value = "author", required = false) String author,
                     @RequestParam(value = "timesRead", required = false) Integer timesRead) {
 
-        return bookService.updateBook(isbn, title, publisher, summary, author, timesRead);
+        return bookService.updateBook(isbn, title, publisher, publishedDate, summary, author, timesRead);
     }
 }
