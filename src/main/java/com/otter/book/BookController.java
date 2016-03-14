@@ -9,7 +9,7 @@ import java.util.List;
 /**
  * Created by David on 2/16/2016.
  */
-@RequestMapping("/book")
+@RequestMapping("/books")
 @RestController
 public class BookController {
 
@@ -23,7 +23,6 @@ public class BookController {
 
     @RequestMapping(method = RequestMethod.POST)
     public List<Book> searchFor(@RequestParam(value = "title") String title) throws IOException {
-
         return bookService.searchFor(title);
     }
 
