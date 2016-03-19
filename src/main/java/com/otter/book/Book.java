@@ -1,9 +1,13 @@
 package com.otter.book;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.otter.account.Account;
 import com.otter.author.Author;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by David on 2/16/2016.
@@ -34,6 +38,11 @@ public class Book {
 
     private Integer timesRead;
 
+    @ManyToMany(cascade=CascadeType.ALL)
+    @JoinTable(name="account_book", joinColumns=@JoinColumn(name="book_id"), inverseJoinColumns=@JoinColumn(name="account_id"))
+    @JsonIgnore
+    private List<Account> accounts;
+
     public Book(String isbn, String title, Author author, String publisher, String publishedDate, String summary) {
         this.isbn = isbn;
         this.title = title;
@@ -42,11 +51,13 @@ public class Book {
         this.publishedDate = publishedDate;
         this.summary = summary;
         timesRead = 0;
+        accounts = new ArrayList<>();
     }
 
     public Book() {
     }
 
+    @Column(name="book_id")
     public Long getId() {
         return id;
     }
@@ -105,6 +116,14 @@ public class Book {
 
     public void setTimesRead(Integer timesRead) {
         this.timesRead = timesRead;
+    }
+
+    public List<Account> getAccounts() {
+        return accounts;
+    }
+
+    public void setAccounts(List<Account> accounts) {
+        this.accounts = accounts;
     }
 
     @Override
